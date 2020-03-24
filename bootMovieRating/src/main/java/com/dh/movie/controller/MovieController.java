@@ -4,17 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +37,7 @@ public class MovieController extends ComController<MovieServiceimpl, MovieVO>{
 	@ResponseBody 
 	@RequestMapping("/ratingmovielist")
 	public List<MovieVO> ratingmovielist() {
-		System.out.println("호출!");
+		System.out.println("ratingmovielist");
 		List<MovieVO> ratingmovielist = new ArrayList<MovieVO>();
 		ratingmovielist = movieService.ratingmovielist();	
 		return ratingmovielist;
@@ -47,13 +45,28 @@ public class MovieController extends ComController<MovieServiceimpl, MovieVO>{
 	
 	//flask연동 테스트
 	@ResponseBody 
-	@RequestMapping("/test")
-	public String test() throws IOException, ParseException {
-		System.out.println("호출!");
+	@RequestMapping("/rating")
+	public List<MovieVO> rating(MovieVO vo) throws IOException, ParseException {
+		System.out.println("rating");
+		List<String> movieParam = new ArrayList<String>();
+		List<MovieVO> suggetList = new ArrayList<MovieVO>();
+		movieParam = this.getSuggestMovie();
+		suggetList = movieService.suggestMovieList(movieParam);
+		System.out.println(suggetList);
+		return suggetList;
+	}
+		
+	// flask연동 테스트
+	public JSONArray getSuggestMovie() throws IOException, ParseException {
+		// rest템플릿 사용 방법
+		// http객체 사용 방법
+		
+		System.out.println("getSuggestMovie");
+		JSONArray req_array = new JSONArray();	
 		URL url;
-		try {
-			url = new URL("http://localhost:5000/test");
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		url = new URL("http://localhost:5000/rating");
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		try {			
 			conn.setConnectTimeout(5000); //서버에 연결되는 Timeout 시간 설정
 			conn.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
 			// conn.setRequestMethod(METHOD_GET);
@@ -61,74 +74,77 @@ public class MovieController extends ComController<MovieServiceimpl, MovieVO>{
 			conn.setRequestProperty("Accept", "application/json");
 			// 일반 form태그 방식
 			// conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			// json 방식
 			conn.setRequestProperty("Content-Type", "application/json");
 			
-			
-			
-
-            //json으로 message를 전달하고자 할 때					
+           			
 			conn.setDoInput(true);
-			conn.setDoOutput(true); //POST 데이터를 OutputStream으로 넘겨 주겠다는 설정 
+			conn.setDoOutput(true); //POST 데이터를 OutputStream으로 넘겨 주겠다는 설정 -> default는 true
 			conn.setUseCaches(false);
 			conn.setDefaultUseCaches(false);
-//			String parameter = String.format("param1=%s&param2=%s",URLEncoder.encode("param1"),URLEncoder.encode("param2"));
-			String temp = String.format("param1=s1");
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("d", "s");
-			List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-			OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+
+			
+			//OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
 			OutputStream os = conn.getOutputStream();
 			
-			System.out.println(map.toString());
+			List<Integer> list1 = new ArrayList<Integer>();
+	        list1.add(1);
+	        list1.add(2);
+	        list1.add(3);
+	        list1.add(5);
+	        list1.add(6);
+	        list1.add(7);
+	        
+	        List<Integer> list2 = new ArrayList<Integer>();
+	        list2.add(1);
+	        list2.add(2);
+	        list2.add(3);
+	        list2.add(3);
+	        list2.add(2);
+	        list2.add(3);
 			
 			JSONObject jsonObject = new JSONObject();
-
-	        jsonObject.put("SECR_KEY", "ktko.tistory.com");
-	        jsonObject.put("KEY", "ktko");
+			jsonObject.put("movieid", list1);
+			jsonObject.put("rating", list2);
+			System.out.println(jsonObject);
 	        
-	        JSONObject data = new JSONObject();
-	        data.put("BANK_CD", "088");
-	        data.put("SEARCH_ACCT_NO", "1231231234");
-	        data.put("ACNM_NO", "123456");
-	        data.put("ICHE_AMT", "0");
-	        data.put("TRSC_SEQ_NO", "0000001");
+			JSONParser parser = new JSONParser();
+			
+	               
+	       // jsonObject.put("REQ_DATA", req_array);
+	       
 	        
-	        JSONArray req_array = new JSONArray();
-	        req_array.add(data);
-	        System.out.println(data);
-	        jsonObject.put("REQ_DATA", req_array);
-
-
-	        req_array.toString().getBytes("UTF-8");
-	        System.out.println(req_array);
-	        os.write(req_array.toString().getBytes("UTF-8"));
-			// wr.write(req_array.toString().getBytes("UTF-8")); //json 형식의 message 전달 
-			// wr.flush();
-	        os.flush();
-
+	        // os.write(data.toJSONString().getBytes("UTF-8"));
+			// os.write(req_array.toJSONString().getBytes("UTF-8"));
+			os.write(jsonObject.toString().getBytes("UTF-8"));
+			os.flush();
 			
-			
+			// String -> 일반 form형식 
+	        //wr.write(temp);
+			//wr.flush();
+
 			
 			StringBuilder sb = new StringBuilder();
-			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-				//Stream을 처리해줘야 하는 귀찮음이 있음. 
-				BufferedReader br = new BufferedReader(
-						new InputStreamReader(conn.getInputStream(), "utf-8"));
+			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {				
+				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
 				String line;
+				// 1. buffer클래스란?
+				// 2. 자바 list로 변환할 수는 없는가?
 				while ((line = br.readLine()) != null) {
 					sb.append(line).append("\n");
 				}
 				br.close();
-				System.out.println("" + sb.toString());
+				req_array = (JSONArray) parser.parse(sb.toString());				
 			} else {
 				System.out.println(conn.getResponseCode());
 				System.out.println(conn.getResponseMessage());
 			}
-
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+		} finally {
+			conn.disconnect();
 		}
-		return "";
+		return req_array;
 	}
 	
 }

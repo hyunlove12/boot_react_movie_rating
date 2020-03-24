@@ -12,5 +12,16 @@
         ORDER BY RAND() LIMIT 6
     </select>    
   
-    
+    <!-- 추천 영화 6개 출력 -->
+    <select id="suggestMovieList" resultType="com.dh.movie.service.MovieVO">
+		SELECT MOVIE_ID AS movieId
+                , TITLE AS title
+                , IMG_TITLE AS imgTitle
+         FROM MOVIE_LIST
+         WHERE MOVIE_ID IN  
+         <foreach collection="list" item="movieList" index="index" open="(" separator="," close=")">
+         	<!-- {movieList.movieId} list안에 String이기 때문에 item자체로 가능 -->
+         	#{movieList}
+         </foreach>
+    </select>
 </mapper>

@@ -204,18 +204,53 @@ def test():
     :param movie_id:
     :return:
     '''
+    print('호출!')
+    #movielist = request.form.getlist('movieid')
+    #print(movielist)
     print('호출!!!!')
     print(request.form)
-    print(request.get_json())
-    jsonify()
-    movielist = request.form['param1']
-    print(movielist)
+    print(request.get_json()['rating'][0])
+    # jsonify()
+ #   movielist = request.form['movieid']
+ #   temp = request.form['temp']
+ #   print(temp)
+ #   print(movielist)
+    print("11111")
+   # print(movielist)
     # ratinglist = request.form.getlist('movierating')
     # json방식의 문자 인코딩과 단순한 문자열의 인코딩 다르다?
     # return "리턴"
-    return {"value" : "리턴" }
+    return {"value" : "리턴1" }
 
+
+
+
+
+@app.route('/rating', methods=['post'])
+def rating():
+    '''
+    선택된 6개 영화에 대한 추천 영화 리스트 출력
+    :return:
+    '''
+    movielist = request.get_json()['movieid']
+    ratinglist = request.get_json()['rating']
+
+    data_model = dm()
+    movie_tuple = []
+
+    movielist = list(movielist)
+    ratinglist = list(ratinglist)
+
+    for i, e in enumerate(movielist):
+        print(i)
+        movie_tuple.append((e, ratinglist[i]))
+    movie_list = data_model.movie_suggest(movie_tuple)
+
+    # json으로 리턴
+    result_json = json.dumps(list(movie_list))
+    return result_json
 
 if __name__ == "__main__":
-#    app.run(host="0.0.0.0")
+    #    app.run(host="0.0.0.0")
+    # 외부 ip에서 접근할 수 없도록 설정
     app.run()

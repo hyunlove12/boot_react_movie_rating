@@ -24,4 +24,11 @@ public class MovieServiceimpl extends ComServiceimpl<MovieServiceimpl, MovieMapp
 		return ratingmovielist;
 	}
 	
+	// 추천 영화 6편 출력
+	public List<MovieVO> suggestMovieList(List<String> movieList) {
+		List<MovieVO> ratingmovielist = new ArrayList<MovieVO>(); 
+		ratingmovielist = movieMapper.suggestMovieList(movieList);
+		return ratingmovielist;
+	}
+	
 }

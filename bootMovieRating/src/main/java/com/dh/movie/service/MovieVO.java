@@ -14,7 +14,14 @@ public class MovieVO extends ComVO implements Serializable{
 	private String movieId = "";
 	private String title = "";
 	private String imgTitle = "";
+	private String rating = "";
 	
+	public String getRating() {
+		return rating;
+	}
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
 	public String getMovieId() {
 		return movieId;
 	}

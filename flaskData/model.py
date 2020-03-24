@@ -55,7 +55,7 @@ class data_model:
 
         # 가중치 및 음의 관계, 양의 관계 변환
         def get_similar_movies(movie_id, user_rating):
-            similar_score = item_similarity_df.loc[:, movie_id] * (float(user_rating) - 2.49)
+            similar_score = item_similarity_df.iloc[:, movie_id] * (float(user_rating) - 2.49)
             similar_score = similar_score.sort_values(ascending=False)
             return similar_score
 
