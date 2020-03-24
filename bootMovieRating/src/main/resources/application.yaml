@@ -1,0 +1,23 @@
+application:
+   version: v1.0.0
+   title: boot-security
+    
+spring:
+   mvc:
+    #servlet:
+     # path: /api/
+    view:
+     prefix: /WEB-INF/
+     suffix: .jsp
+   datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    #driver-class-name: org.mariadb.jdbc.Driver
+ ## initialization-mode 옵션: never, always (어플리케이션 실행시 sql파일 실행할지 안할지 여부 선택)
+    initialization-mode: always
+ ## sql 파일 경로
+    #schema: classpath:init.sql
+    #url: jdbc:mysql://localhost:3306/webdb?useUnicode=true&characterEncoding=UTF-8
+    # 운영 서버
+    url: jdbc:mysql://192.168.25.12:3306/movie?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: movie
+    password: 1234

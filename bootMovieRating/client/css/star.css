@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+.checked {
+  color: orange;
+}
+
+
+*{
+	margin:0; 
+	padding:0;
+}
+div.star-rating > span.star{
+  display:inline-block;
+  width: 30px;height: 60px;
+  cursor: pointer;
+}
+div.star-rating > span.star_left{
+  background: url(./../img/star.png) no-repeat 0 0;
+  background-size: 60px;
+  margin-right: -3px;
+}
+div.star-rating > span.star_right{
+  background: url(./../img/star.png) no-repeat -30px 0;
+  background-size: 60px;
+  margin-left: -3px;
+}
+div.star-rating > span.star.on{
+  background-image: url(./../img/star_on.png);
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dh.login.serviceimpl.LoginMapper">
+
+    
+    <insert id="join">
+		 INSERT INTO TB_MEMBER(ID, PASSWORD, NAME, EMAIL, REG_DT) 
+		VALUES(#{id }, #{password }, #{name }, #{email },  (SELECT DATE_FORMAT(NOW(), '%Y%m%d') FROM DUAL))	
+    </insert> 
+    
+    <insert id="roleRegist">    		   
+		 INSERT INTO TB_MEMBER_ROLE(ID, ROLE_NO) 
+		VALUES(#{id }, 'USER')
+    </insert>
+    
+    <!-- 유저 ID 비번 확인 -->
+	<select id="findByUsername" resultType="com.dh.login.service.LoginVO">
+        SELECT ID
+			    , PASSWORD
+			    , NAME
+			    , EMAIL
+			    , REG_DT
+		 FROM TB_MEMBER
+		WHERE ID = #{username }
+    </select>
+    
+    <!-- 유저 권한 확인 -->
+	<select id="findByRoleList" resultType="String">
+         SELECT MR.ROLE_NO
+		   FROM TB_MEMBER M
+		   LEFT OUTER JOIN TB_MEMBER_ROLE MR
+		     ON M.ID = MR.ID
+	      WHERE M.ID = #{username }
+    </select>
+    
+</mapper>

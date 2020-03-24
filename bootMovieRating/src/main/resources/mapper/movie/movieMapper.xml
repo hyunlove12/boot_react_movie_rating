@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dh.movie.serviceimpl.MovieMapper">
+
+    
+    <!-- 랜덤 영화 6개 출력 -->
+	<select id="ratingmovielist" resultType="com.dh.movie.service.MovieVO">
+        SELECT MOVIE_ID AS movieId
+                , TITLE AS title
+                , IMG_TITLE AS imgTitle
+         FROM MOVIE_LIST 
+        ORDER BY RAND() LIMIT 6
+    </select>    
+  
+    
+</mapper>
