@@ -29,6 +29,12 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	@Autowired
 	LoginServiceimpl loginService;
 	
+	@RequestMapping("/main")
+	public String welcome(HttpServletResponse response, HttpServletRequest req, ModelAndView model, LoginVO vo) {			
+		System.out.println("호출!!!!!!!!!!!!");
+//		return "login/login.html";
+		return "welcome";
+	} 
 
 	@RequestMapping("/log")
 	public String loginPage(HttpServletResponse response, HttpServletRequest req, ModelAndView model, LoginVO vo) {			

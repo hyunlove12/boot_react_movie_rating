@@ -13,7 +13,7 @@ function App() {
         <Switch>
           {/* null -> 아무나 접근, false -> 로그인한 사람은 접속 못한다 true -> 로그인 한 사람만 접근 가능 */}
           {/* path -> 컴포넌트 경로(url) */}
-          <Route exact path="/log" component={LoginPage} />
+          <Route exact path="/main" component={LoginPage} />
           <Route exact path="/ratingmain" component={RatingMain} />          
         </Switch>
         <Footer />

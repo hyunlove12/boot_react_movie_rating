@@ -34,16 +34,40 @@ public class MovieController extends ComController<MovieServiceimpl, MovieVO>{
 	public MovieController() {
 	}
 	
+	/**
+	 * 평가해야 되는 6개의 랜덤 영화 출력
+	 * @return
+	 * @throws ParseException 
+	 */
 	@ResponseBody 
 	@RequestMapping("/ratingmovielist")
-	public List<MovieVO> ratingmovielist() {
+	public List<MovieVO> ratingmovielist() throws ParseException {
 		System.out.println("ratingmovielist");
 		List<MovieVO> ratingmovielist = new ArrayList<MovieVO>();
 		ratingmovielist = movieService.ratingmovielist();	
+		
+		JSONObject jsonObject = new JSONObject();
+	//	jsonObject.put("success", "suc");
+		
+		
+		JSONParser parser = new JSONParser();
+		JSONArray req_array = new JSONArray();
+		
+		//(JSONArray) parser.parse(sb.toString());		
+		//System.out.println(JSONArray.toJSONString(ratingmovielist));
+		//req_array = (JSONArray) parser.parse(ratingmovielist.toString());
+		
+		//req_array.add(jsonObject);
 		return ratingmovielist;
 	}
 	
-	//flask연동 테스트
+	/**
+	 * 영화 평가 후 영화 추천
+	 * @param vo
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@ResponseBody 
 	@RequestMapping("/rating")
 	public List<MovieVO> rating(MovieVO vo) throws IOException, ParseException {
@@ -56,7 +80,12 @@ public class MovieController extends ComController<MovieServiceimpl, MovieVO>{
 		return suggetList;
 	}
 		
-	// flask연동 테스트
+	/**
+	 * flask서버 연동하여 추천 영화 목록 가져오기
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public JSONArray getSuggestMovie() throws IOException, ParseException {
 		// rest템플릿 사용 방법
 		// http객체 사용 방법
@@ -71,6 +100,7 @@ public class MovieController extends ComController<MovieServiceimpl, MovieVO>{
 			conn.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
 			// conn.setRequestMethod(METHOD_GET);
 			conn.setRequestMethod(METHOD_POST);
+			// 수신받는 데이터 종류 -> aceept header
 			conn.setRequestProperty("Accept", "application/json");
 			// 일반 form태그 방식
 			// conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");

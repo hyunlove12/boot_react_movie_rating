@@ -28,14 +28,12 @@ function RatingMain() {
             .then(res => {
                 if(res.data.success) {
                     setMovieList(res.data.movieList)
-                } else {
-                    alert('영화 정보를 가져오지 못했습니다.')
-                }
+                } 
             })
         // 페이지 전화 후 데이터 다시 로드?
         props.history.push(`/api/ratingmovie/${nextPostId}`);
     }
-
+	
     const onSpanClick = (e) => {
         e.preventDefault()
         var idx = spanRef.index()
@@ -54,7 +52,7 @@ function RatingMain() {
             <div className="item web col-sm-6 col-md-4 col-lg-4 mb-4">
                 <a className="item-wrap fancybox">
                     <div className="work-info">
-                        <h3>{movie.title} / {movie.imgTitle}</h3>
+                        <h3>{movie.title}</h3>
                         <div className="star-rating">
                             <span onClick={onSpanClick} className="star star_left"></span>
                             <span onClick={onSpanClick} className="star star_right"></span>
@@ -94,7 +92,7 @@ function RatingMain() {
                                     <div className="col-md-12 col-lg-6 mb-4 mb-lg-0" data-aos="fade-up">
                                         <div className="row">
                                             <div className="col-md-6 form-group">
-                                                <input type="submit" className="readmore d-block w-100" value="평점 입력 후 클릭하세요!" />
+                                                <input type="submit" onClick={onSubmit} className="readmore d-block w-100" value="평점 입력 후 클릭하세요!" />
                                             </div>
                                         </div>
                                     </div>

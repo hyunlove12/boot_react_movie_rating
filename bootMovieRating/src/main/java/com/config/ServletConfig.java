@@ -1,25 +1,40 @@
 package com.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class ServletConfig {	
+public class ServletConfig implements WebMvcConfigurer {	
+	
+     private final List<String> resourceList = Arrays.asList("/css/**", "/js/**", "/img/**", "/movie_img/**", "/result_img/**", "/vendor/**", "/dist/**"); 	
 	
 	  @Bean 
-	  public ServletRegistrationBean	  servletRegistrationBean(WebApplicationContext webApplicationContext) {
+	  public ServletRegistrationBean	 servletRegistrationBean(WebApplicationContext webApplicationContext) {
 		  DispatcherServlet disServlet = new DispatcherServlet(webApplicationContext);
 		  ServletRegistrationBean servlet = new ServletRegistrationBean(disServlet, false, "/"); 
 		  servlet.setLoadOnStartup(1); 
 		  return servlet; 
 	  }
-
+	 
+	  public void addInterceptors(InterceptorRegistry registry) {
+		  //registry.addInterceptor(new CustomHandlerInterceptor()).order(0); 
+		  registry.addInterceptor(new CustomHandlerInterceptor())				     
+				    .excludePathPatterns("/api/**")
+				    .excludePathPatterns("/main")
+				    .excludePathPatterns(resourceList)				    
+				    .order(-1); 
 		  
+	  }
+	  
+	  
 	/*
 	 * @Bean public ServletRegistrationBean
 	 * deServletRegistrationBean(WebApplicationContext webApplicationContext) {
