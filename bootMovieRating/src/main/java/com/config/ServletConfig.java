@@ -3,6 +3,7 @@ package com.config;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,26 +15,32 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ServletConfig implements WebMvcConfigurer {	
 	
-     private final List<String> resourceList = Arrays.asList("/css/**", "/js/**", "/img/**", "/movie_img/**", "/result_img/**", "/vendor/**", "/dist/**"); 	
+	private final List<String> resourceList = Arrays.asList("/css/**", "/js/**", "/img/**", "/movie_img/**", "/result_img/**", "/vendor/**", "/dist/**"); 	
 	
-	  @Bean 
-	  public ServletRegistrationBean	 servletRegistrationBean(WebApplicationContext webApplicationContext) {
+	@Bean 
+	public ServletRegistrationBean	 servletRegistrationBean(WebApplicationContext webApplicationContext) {
 		  DispatcherServlet disServlet = new DispatcherServlet(webApplicationContext);
 		  ServletRegistrationBean servlet = new ServletRegistrationBean(disServlet, false, "/"); 
 		  servlet.setLoadOnStartup(1); 
 		  return servlet; 
-	  }
+	}
 	 
-	  public void addInterceptors(InterceptorRegistry registry) {
+	public void addInterceptors(InterceptorRegistry registry) {
 		  //registry.addInterceptor(new CustomHandlerInterceptor()).order(0); 
 		  registry.addInterceptor(new CustomHandlerInterceptor())				     
 				    .excludePathPatterns("/api/**")
-				    .excludePathPatterns("/main")
-				    .excludePathPatterns(resourceList)				    
-				    .order(-1); 
-		  
-	  }
+		.excludePathPatterns("/main")
+					    .excludePathPatterns(resourceList)				    
+					    .order(-1); 		  
+	}
 	  
+	@Bean
+	public FilterRegistrationBean getFilterRegistrationBean() {
+		FilterRegistrationBean registrationBean = new FilterRegistrationBean(new ReactFilter());
+		registrationBean.setOrder(Integer.MIN_VALUE);
+	registrationBean.setUrlPatterns(Arrays.asList("/board/*"));
+		return registrationBean;
+	}
 	  
 	/*
 	 * @Bean public ServletRegistrationBean
