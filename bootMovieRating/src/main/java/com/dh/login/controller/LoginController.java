@@ -27,28 +27,7 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 
 	//web-inf 밑의 jsp가 루트 경로
 	@Autowired
-	LoginServiceimpl loginService;
-	
-	@RequestMapping("/main")
-	public String welcome(HttpServletResponse response, HttpServletRequest req, ModelAndView model, LoginVO vo) {			
-		System.out.println("호출!!!!!!!!!!!!");
-//		return "login/login.html";
-		return "welcome";
-	} 
-
-	@RequestMapping("/log")
-	public String loginPage(HttpServletResponse response, HttpServletRequest req, ModelAndView model, LoginVO vo) {			
-		System.out.println("호출!!!!!!!!!!!!");
-//		return "login/login.html";
-		return "welcome";
-	} 
-	@RequestMapping("/ratingmain")
-	public String ratingmain(HttpServletResponse response, HttpServletRequest req, ModelAndView model, LoginVO vo) {			
-		System.out.println("ratingmain");
-//		return "login/login.html";
-		return "welcome";
-	} 
-
+	LoginServiceimpl loginService;	
 	
 //	@RequestMapping(value="/save.do", produces="text/plain;charset=UTF-8")
 	@PostMapping(value="/join/join")

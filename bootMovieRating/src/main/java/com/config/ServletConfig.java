@@ -7,10 +7,17 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.HandlerAdapter;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 public class ServletConfig implements WebMvcConfigurer {	
@@ -18,7 +25,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final List<String> resourceList = Arrays.asList("/css/**", "/js/**", "/img/**", "/movie_img/**", "/result_img/**", "/vendor/**", "/dist/**"); 	
 	
 	@Bean 
-	public ServletRegistrationBean	 servletRegistrationBean(WebApplicationContext webApplicationContext) {
+	public ServletRegistrationBean servletRegistrationBean(WebApplicationContext webApplicationContext) {
 		  DispatcherServlet disServlet = new DispatcherServlet(webApplicationContext);
 		  ServletRegistrationBean servlet = new ServletRegistrationBean(disServlet, false, "/"); 
 		  servlet.setLoadOnStartup(1); 
@@ -49,6 +56,38 @@ public class ServletConfig implements WebMvcConfigurer {
 	 * ServletRegistrationBean servlet = new ServletRegistrationBean(disServlet,
 	 * false, "/"); servlet.setLoadOnStartup(-1); return servlet; }
 	 */
+	
+	
+	/*
+	@Bean
+	public HandlerMapping handlerMapping() {
+		// 요청을 처리할 수 있는 메소드를 찾아주는 역할
+		// app/hello -> app까지는 disapcher에 매핑 그 후 hello에 대한 처리 부분 확인 해주는 역할 
+		RequestMappingHandlerMapping handlerMapping = new RequestMappingHandlerMapping();
+		// 처리 전에 적용되는 인터셉터
+		// handlerMapping.setInterceptors();
+		// 핸들러 매핑 순서 -> 우선순위 설정
+		handlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return handlerMapping;
+	}
+	
+	@Bean
+	public HandlerAdapter handlerAdapter() {
+		RequestMappingHandlerAdapter handlerAdapter = new RequestMappingHandlerAdapter();
+		// pathvariable, requestparam 등의 아규먼트 설정
+		//handlerAdapter.setArgumentResolvers();
+		return handlerAdapter;		
+	}
+	
+	@Bean 
+	public ViewResolver viewResolver() {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();		
+		viewResolver.setPrefix("/WEB-INF");
+		viewResolver.setSuffix(".jsp");
+		return viewResolver;
+	}
+	*/
+	
 }
 
 /*

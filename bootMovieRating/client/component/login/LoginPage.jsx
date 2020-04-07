@@ -12,7 +12,7 @@ return (
                     <div className="container"> 
                         <div className="row mb-5 align-items-end">
                             <div className="col-md-6" data-aos="fade-up">
-                                <h2>Contact</h2>
+                                <h2>회원가입</h2>
                                 <p className="mb-0">Lorem ipsum dolor sit amet consectetur
                                 adipisicing elit. Quisquam necessitatibus incidunt ut officiis
                                 explicabo inventore.</p>

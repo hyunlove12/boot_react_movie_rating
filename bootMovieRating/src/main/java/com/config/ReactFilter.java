@@ -27,7 +27,8 @@ public class ReactFilter implements Filter{
 		if(path.contains("/api")) {
 			chain.doFilter(request, response);
 		} else {
-			res. 
+			//res.sendRedirect("");
+			chain.doFilter(request, response);
 		}
 	}
 
