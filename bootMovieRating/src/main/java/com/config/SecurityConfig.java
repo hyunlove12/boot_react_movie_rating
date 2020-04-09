@@ -18,6 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 
 import com.dh.login.serviceimpl.LoginServiceimpl;
 
@@ -61,6 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.permitAll(); // 커스터 마이징 시 반드시 필요
 			// .successForwardUrl("") // 성공시 보여지는 페이지 주소
 		
+		http.csrf()
+			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		http.httpBasic(); //httpbasic사용		// 하나의 필터가 처리 
 		
 		http.logout()
@@ -80,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	//있으면 기본 인증 안됨? -> Authentication없다고 나온다.
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(loginServiceimpl);	//bean으로 드등록만 되어 있으면 사용 가능	
+		auth.userDetailsService(loginServiceimpl);	//bean으로 등록만 되어 있으면 사용 가능	
 	}
 	
 	// 필터 적용을 제외하고 싶을 때 websecurity설정

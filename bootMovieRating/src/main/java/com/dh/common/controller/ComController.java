@@ -11,7 +11,8 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.dh.common.service.ComVO;
 
-@RequestMapping("/*")
+// 중복 경로가 있으면 하나만 실행된다....?
+//@RequestMapping("/*")
 @Controller
 public abstract class ComController<S, V> extends AbstractController{
 	//web-inf 밑의 jsp가 루트 경로
@@ -49,14 +50,6 @@ public abstract class ComController<S, V> extends AbstractController{
 	@RequestMapping("/delete")
 	public String delete(HttpServletResponse response, HttpServletRequest req, ModelAndView model, V vo) {			
 		return "login/login";
-	}
-
-	// 임시로 라우터 이동 리소스 처리
-	@RequestMapping
-	public String main(HttpServletResponse response, HttpServletRequest req, ModelAndView model, V vo) {
-		// 중복호출 되는 상황 발생 
-		System.out.println("메인 호출!!!");
-		return "welcome";
 	}
 
 }

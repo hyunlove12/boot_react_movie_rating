@@ -1,0 +1,74 @@
+-- 회원
+
+USE MOVIE;
+DROP TABLE IF EXISTS USER RESTRICT;
+
+ 
+
+-- 회원 권한
+
+DROP TABLE IF EXISTS TB_MEMBER_ROLE RESTRICT;
+
+ 
+
+-- 회원
+
+CREATE TABLE USER (
+
+	ID       VARCHAR(20) NOT NULL COMMENT '회원ID', -- 회원ID
+
+	PASSWORD VARCHAR(100) NULL     COMMENT '비밀번호', -- 비밀번호
+
+	NAME     VARCHAR(20) NULL     COMMENT '이름', -- 이름
+
+	EMAIL    VARCHAR(20) NULL     COMMENT '이메일', -- 이메일
+
+	REG_DT   VARCHAR(8)  NULL     COMMENT '가입일' -- 가입일
+
+)
+
+COMMENT '회원';
+
+ 
+
+-- 회원
+
+ALTER TABLE USER
+
+	ADD CONSTRAINT PK_USER -- 회원 기본키
+
+		PRIMARY KEY (
+
+			ID -- 회원ID
+
+		);
+
+ 
+
+-- 회원 권한
+
+CREATE TABLE USER_ROLE (
+
+	ID      VARCHAR(30) NOT NULL COMMENT '회원ID', -- 회원ID
+
+	ROLE_NO VARCHAR(30) NOT NULL COMMENT '권한번호' -- 권한번호
+
+)
+
+COMMENT '회원 권한';
+
+ 
+
+-- 회원 권한
+
+ALTER TABLE USER_ROLE
+
+	ADD CONSTRAINT PK_USER_ROLE -- 회원 권한 기본키
+
+		PRIMARY KEY (
+
+			ID,      -- 회원ID
+
+			ROLE_NO  -- 권한번호
+
+		);
