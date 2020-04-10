@@ -19,13 +19,21 @@ public class ComVO extends ResponseVO implements Serializable{
 	private String name = "";
 	private String password = "";
 	private String email = "";	
+	private String message = "";
 	private String role = "";
 	private String username = "";
 	private String regDt = "";
 	private String unityGroupId = "";
 	private String unityId = "";
 	private String suserId = currentUserName();
+
 	
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	public String getUnityGroupId() {
 		return unityGroupId;
 	}

@@ -2,8 +2,8 @@ package com.dh.login.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -27,17 +27,9 @@ public class LoginController extends ComController<LoginServiceimpl, LoginVO> {
 	
 	@ResponseBody 
 	@PostMapping("/join")
-	public String join(LoginVO vo) {
-		System.out.println("join");
-		System.out.println(vo.getName());
-		return "success";
-	}
-	
-	@ResponseBody 
-	@GetMapping("/join")
-	public String join1(LoginVO vo) {
-		System.out.println("join");
-		System.out.println(vo.getName());
+	public String join(@RequestBody LoginVO vo) {
+		System.out.println("회원가입");
+		loginService.join(vo);
 		return "success";
 	}
 	

@@ -64,7 +64,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			// .successForwardUrl("") // 성공시 보여지는 페이지 주소
 		
 		http.csrf()
-			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+			.disable();
+			//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+		
+		
 		http.httpBasic(); //httpbasic사용		// 하나의 필터가 처리 
 		
 		http.logout()
