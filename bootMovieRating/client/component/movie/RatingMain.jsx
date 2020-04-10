@@ -3,7 +3,7 @@ import Axios from 'axios'
 import Menu from "./../include/Menu.jsx"
 import "./../../css/star.css"
 
-function RatingMain() {
+function RatingMain(props) {
 
     const [MovieList, setMovieList] = useState([])
     const spanRef = useRef(null)
@@ -31,7 +31,7 @@ function RatingMain() {
                 } 
             })
         // 페이지 전화 후 데이터 다시 로드?
-        props.history.push(`/api/ratingmovie/${nextPostId}`);
+        // props.history.push(`/api/ratingmovie/${nextPostId}`);
     }
 	
     const onSpanClick = (e) => {

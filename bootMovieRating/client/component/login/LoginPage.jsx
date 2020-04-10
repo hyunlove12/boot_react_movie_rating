@@ -40,20 +40,29 @@ function LoginPage(props) {
     	alert('ID찾기!')
     }
     
-    const temp = `username=${Id}&password=${PassWord}`
+    // const temp = `username=${Id}&password=${PassWord}`
 	const config = { headers : {'Content-Type' : 'application/x-www-form-urlencoded'}}
 	const onSubmit = (e) => {
         e.preventDefault()
         console.log(variables)
         
-        Axios.post('/login', temp, config)
+     //   Axios.post('/login', temp, config)
+        Axios.post('/api/authentications', variables)
         	.then(res => {
-                if(res.data.success) {
-                    setMovieList(res.data.movieList)
-             } 
-        })
-        // 페이지 전화 후 데이터 다시 로드?
-        props.history.push(`/ratingmovielist`);
+        		console.log(res)
+                console.log(res.data)
+                if(res.status == 200 ) {
+			        // 페이지 전화 후 데이터 다시 로드?
+			        props.history.push(`/ratingmain`);
+                    // setMovieList(res.data.movieList)
+                } else {
+                	alert('로그인에 실패했습니다.')
+                } 
+       	    })       	    
+            .catch(function (error) {
+           		alert('로그인에 실패했습니다.')
+				console.log(error);
+			})
     }
     
     

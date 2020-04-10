@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
@@ -18,8 +19,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import com.dh.login.serviceimpl.LoginServiceimpl;
 
@@ -56,12 +59,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.anyRequest().authenticated(); //그 외 어떠한 요청은 인증만 하면 된다.
 				//.expressionHandler(expressionHandler()); // expressionHandler를 override하는 방법
 				// .and()	//메소드 체이닝
-		http.formLogin() //form 로그인 사용 //하나의 필터가 처리
-			.usernameParameter("username") // username 파라미터 -> 기본 로그인페이지에도 자동으로 변경 된다.
-			.passwordParameter("password") // password 파라미터 -> 기본 로그인페이지에도 자동으로 변경 된다.
-			.loginPage("/login") // 로그인 페이지 -> 필터가 등록 안된다(디폴트 로그인 페이지 제너레이팅) -> 로그아웃도 같이 등록 안된다. // 기본적으로 get요청, post요청은 auth필터가 처리
-			.permitAll(); // 커스터 마이징 시 반드시 필요
+	//	http.formLogin() //form 로그인 사용 //하나의 필터가 처리
+			//.usernameParameter("username") // username 파라미터 -> 기본 로그인페이지에도 자동으로 변경 된다.
+			//.passwordParameter("password") // password 파라미터 -> 기본 로그인페이지에도 자동으로 변경 된다.
+			//.loginPage("/login") // 로그인 페이지 -> 필터가 등록 안된다(디폴트 로그인 페이지 제너레이팅) -> 로그아웃도 같이 등록 안된다. // 기본적으로 get요청, post요청은 auth필터가 처리
+//			.permitAll(); // 커스터 마이징 시 반드시 필요
 			// .successForwardUrl("") // 성공시 보여지는 페이지 주소
+		
+		http.addFilterAt(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.formLogin()
+			.loginPage("/login")
+			.permitAll();
 		
 		http.csrf()
 			.disable();
@@ -100,5 +108,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// 동적인 리소스(/main)는 httpSecurity에서 설정해야한다 -> 특정 filter가 적용되야 하기 때문
 		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/movie_img/**", "/result_img/**", "/vendor/**", "/dist/**");
 		web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+	}
+	
+	@Bean
+	public AuthenticationFilter authenticationFilter() throws Exception {
+	    AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+	    authenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
+	    authenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
+	    authenticationFilter.setAuthenticationManager(authenticationManagerBean());
+	    return authenticationFilter;
+	}
+
+	@Bean
+	public AuthenticationSuccessHandler authenticationSuccessHandler() {
+	    return new SimpleAuthenticationSuccessHandler();
+	}
+
+	@Bean
+	public AuthenticationFailureHandler authenticationFailureHandler() {
+	    return new SimpleAuthenticationFailureHandler();
+	}
+
+	@Bean
+	public LogoutSuccessHandler logoutSuccessHandler() {
+	    return new SimpleLogoutSuccessHandler();
 	}
 }
