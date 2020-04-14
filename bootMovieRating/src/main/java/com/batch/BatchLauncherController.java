@@ -31,7 +31,7 @@ public class BatchLauncherController {
 		// JobLauncher jobLauncher = context.getBean(JobLauncher.class);		                                   
 		// Job job = context.getBean("flaskApiBatchJob", Job.class);		
 		// jobLanuncher.run(jobRegistry.getJob("flaskApiBatchJob"), new JobParameters());	
-		System.out.println(bacthNo);
+		System.out.println("bacthNo" +bacthNo);
 		this.jobLauncher.run(this.job, new JobParametersBuilder().addString("key", bacthNo).toJobParameters());
 	}
 }
