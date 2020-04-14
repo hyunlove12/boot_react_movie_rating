@@ -10,7 +10,7 @@ function RatingMain() {
 
     useEffect(() => {
         // 랜덤으로 영화 6개 받아오기
-        Axios.get('/api/movie/ratingmovielist')
+        Axios.get('/api/rating/movies')
             .then(res => {
             	console.log(res.status)
             	setMovieList(res.data)
@@ -24,7 +24,7 @@ function RatingMain() {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        Axios.post('/api/ratingmovie')
+        Axios.post('/api/rating')
             .then(res => {
                 if(res.data.success) {
                     setMovieList(res.data.movieList)

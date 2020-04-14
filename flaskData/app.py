@@ -222,7 +222,9 @@ def test():
     # return "리턴"
     return {"value" : "리턴1" }
 
-
+@app.route('/rating/batch', methods=['get'])
+def batch_job():
+    pass
 
 
 

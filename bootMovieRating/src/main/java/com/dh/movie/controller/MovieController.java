@@ -16,6 +16,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,7 +25,7 @@ import com.dh.movie.service.MovieVO;
 import com.dh.movie.serviceimpl.MovieServiceimpl;
 
 @Controller
-@RequestMapping("/api/movie/*")
+@RequestMapping("/api/*")
 public class MovieController extends ComController<MovieServiceimpl, MovieVO>{
 	//web-inf 밑의 jsp가 루트 경로
 	
@@ -40,7 +41,7 @@ public class MovieController extends ComController<MovieServiceimpl, MovieVO>{
 	 * @throws ParseException 
 	 */
 	@ResponseBody 
-	@RequestMapping("/ratingmovielist")
+	@RequestMapping("/rating/movies")
 	public List<MovieVO> ratingmovielist() throws ParseException {
 		System.out.println("ratingmovielist");
 		List<MovieVO> ratingmovielist = new ArrayList<MovieVO>();
@@ -69,7 +70,7 @@ public class MovieController extends ComController<MovieServiceimpl, MovieVO>{
 	 * @throws ParseException
 	 */
 	@ResponseBody 
-	@RequestMapping("/rating")
+	@PostMapping("/rating")
 	public List<MovieVO> rating(MovieVO vo) throws IOException, ParseException {
 		System.out.println("rating");
 		List<String> movieParam = new ArrayList<String>();
