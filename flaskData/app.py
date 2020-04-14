@@ -224,7 +224,9 @@ def test():
 
 @app.route('/rating/batch', methods=['get'])
 def batch_job():
-    return {"result" :"success", "date" : "0414", "regDt" : "040414"}
+    print('호출!')
+    print(json.dumps({"result" :"success", "batchId" : "1", "regDt" : "040414"}))
+    return json.dumps({"result" :"success", "batchId" : "2", "regDt" : "040414"})
 
 
 

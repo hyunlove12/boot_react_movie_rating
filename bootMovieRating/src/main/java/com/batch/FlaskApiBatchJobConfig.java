@@ -1,31 +1,20 @@
 package com.batch;
 
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FlaskApiBatchJobConfig {
 	
-	@Bean
-	public Job flaskApiBatchJob(JobBuilderFactory jobBuilderFactory, Step flaskApiBatchJobStep) {
-		return jobBuilderFactory.get("flaskApiBatchJob")	
-				.preventRestart()
-				.start(flaskApiBatchJobStep)
-				.build();
-	}
-	
-	@Bean
-	public Step flaskApiBatchStep(StepBuilderFactory stepBuilderFactory) {
-		return stepBuilderFactory.get("flaskApiBatchJob")
-				.<FlaskBatchVO, FlaskBatchVO> chunk(10)
-				.reader(new FlaskBatchCallReader())
-				.writer(new FlaskBatchCallWriter())
-				.build();
-	}
+	/*
+	 * @Bean public Job flaskApiBatchJob(JobBuilderFactory jobBuilderFactory, Step
+	 * flaskApiBatchJobStep) { return jobBuilderFactory.get("flaskApiBatchJob")
+	 * .preventRestart() .start(flaskApiBatchJobStep) .build(); }
+	 * 
+	 * @Bean public Step flaskApiBatchStep(StepBuilderFactory stepBuilderFactory) {
+	 * return stepBuilderFactory.get("flaskApiBatchJob") .<FlaskBatchVO,
+	 * FlaskBatchVO> chunk(10) .reader(new FlaskBatchCallReader()) .writer(new
+	 * FlaskBatchCallWriter()) .build(); }
+	 */
 	
 	/*@Bean
 	@StepScope

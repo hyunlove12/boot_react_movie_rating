@@ -9,7 +9,9 @@ public class FlaskBatchCallReader implements ItemReader<FlaskBatchVO>{
 	public FlaskBatchVO read() throws Exception {
 		RestTemplate restTemplate = new RestTemplate();
 		FlaskBatchVO vo = new FlaskBatchVO();
-		vo = restTemplate.getForObject("http://localhost:5000/rating/batch", FlaskBatchVO.class);
+		System.out.println("++++++++++++++++++++++++++");
+		System.out.println(restTemplate.getForObject("http://localhost:5000/rating/batch", String.class));
+		System.out.println(vo.toString());
 		return vo;
 	}
 }
