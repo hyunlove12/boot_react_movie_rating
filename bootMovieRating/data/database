@@ -1,9 +1,7 @@
 -- 회원
 
-USE MOVIE;
+-- USE MOVIE;
 DROP TABLE IF EXISTS USER RESTRICT;
-
- 
 
 -- 회원 권한
 
