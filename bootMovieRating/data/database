@@ -70,3 +70,32 @@ ALTER TABLE USER_ROLE
 			ROLE_NO  -- 권한번호
 
 		);
+		
+-- 배치 결과
+
+CREATE TABLE BATCH_RESULT (
+
+	BATCH_ID       VARCHAR(20) NOT NULL COMMENT '배치ID', -- 배치ID
+
+	RESULT    VARCHAR(20) NULL     COMMENT '결과', -- 결과
+
+	REG_DT   VARCHAR(8)  NULL     COMMENT '배치날짜' -- 배치날짜
+
+)
+
+COMMENT '배치 결과';
+
+ 
+
+-- 배치 결과
+
+ALTER TABLE USER
+
+	ADD CONSTRAINT PK_BATCH_RESULT -- 배치 결과 기본키
+
+		PRIMARY KEY (
+
+			BATCH_ID -- 배치ID
+
+		);
+		

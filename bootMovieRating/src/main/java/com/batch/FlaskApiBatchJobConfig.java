@@ -22,15 +22,16 @@ public class FlaskApiBatchJobConfig {
 	public Step flaskApiBatchStep(StepBuilderFactory stepBuilderFactory) {
 		return stepBuilderFactory.get("flaskApiBatchJob")
 				.<FlaskBatchVO, FlaskBatchVO> chunk(10)
-				.reader(flaskApiBatchReader())
-				.processor(flaskApiBatchProcessor())
-				.writer(flaskApiBatchWriter())
+				.reader(new FlaskBatchCallReader())
+				.writer(new FlaskBatchCallWriter())
 				.build();
 	}
 	
-	@Bean
+	/*@Bean
 	@StepScope
 	public QueueItemReader<FlaskBatchVO> flaskApiBatchReader() {
+		RestTemplate restTemplate = new RestTemplate();
+		
 		List<FlaskBatchVO> flaskBatcResult = 
 	}
 
@@ -41,5 +42,5 @@ public class FlaskApiBatchJobConfig {
 	
 	public ItemWriter<User> flaskApiBatchWriter() {
 	    return ((List<? extends User> users) -> userRepository.saveAll(users));
-	}
+	}*/
 }

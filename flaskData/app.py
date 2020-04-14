@@ -224,7 +224,7 @@ def test():
 
 @app.route('/rating/batch', methods=['get'])
 def batch_job():
-    pass
+    return {"result" :"success", "date" : "0414", "regDt" : "040414"}
 
 
 
