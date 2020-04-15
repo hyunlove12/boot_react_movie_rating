@@ -1,4 +1,4 @@
-package com.config;
+package com.securityConfig;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
@@ -52,19 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 				.mvcMatchers("/**", "/api/login/**", "/api/**").permitAll()
 				.mvcMatchers("/admin").hasRole("ADMIN") // admin은 ADMIN권한 필요
-				.mvcMatchers("/user").hasRole("USER") // user권한
-				// .authorizeRequests()로 인하여 15개의 filter가 적용된다 -> anonymousAuthenticationfilter, filterSecurityInterceptor가 허용한다. 
-				// accessDesicionManager가 허용
-				// .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // ignoring과 결과는 똑같으나 과정이 다르다 -> 속도가 더 느림
-				.anyRequest().authenticated(); //그 외 어떠한 요청은 인증만 하면 된다.
-				//.expressionHandler(expressionHandler()); // expressionHandler를 override하는 방법
-				// .and()	//메소드 체이닝
-	//	http.formLogin() //form 로그인 사용 //하나의 필터가 처리
-			//.usernameParameter("username") // username 파라미터 -> 기본 로그인페이지에도 자동으로 변경 된다.
-			//.passwordParameter("password") // password 파라미터 -> 기본 로그인페이지에도 자동으로 변경 된다.
-			//.loginPage("/login") // 로그인 페이지 -> 필터가 등록 안된다(디폴트 로그인 페이지 제너레이팅) -> 로그아웃도 같이 등록 안된다. // 기본적으로 get요청, post요청은 auth필터가 처리
-//			.permitAll(); // 커스터 마이징 시 반드시 필요
-			// .successForwardUrl("") // 성공시 보여지는 페이지 주소
+				.mvcMatchers("/user").hasRole("USER") // user권한				
+				.anyRequest().authenticated(); //그 외 어떠한 요청은 인증만 하면 된다.				
 		
 		http.addFilterAt(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.formLogin()
@@ -72,7 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.permitAll();
 		
 		http.csrf()
-			.disable();
+			.disable()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) ;
 			//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		
 		
